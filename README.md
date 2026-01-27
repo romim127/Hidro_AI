@@ -1,13 +1,11 @@
-# PROYECTO HIDRO AI - NextGenAI Agency 
 # Hidro AI - NextGenAI Agency
-Sistema de monitoreo inteligente para carga de agua con Bomba Zeta 4 (150L/min).
+Sistema inteligente de monitoreo hídrico con IA, integrado con Hunter X-Core y PostgreSQL, diseñado para la gestión eficiente y escalabilidad de recursos mediante Python.
 
 ## Tecnologías
-* Python (Flask API) 
-* PostgreSQL (Base de datos industrial) 
+* Python (Flask API)
+* PostgreSQL (Base de datos industrial)
 * Integración con Hunter X-Core y Sonoff
 
 ## Estado del Proyecto
 - [x] Estructura de base de datos creada
 - [x] Backend validado con Mock Tests
-- [ ] Integración con Android App (Próximamente)
