@@ -1,3 +1,4 @@
+![Diagrama Hidro AI](docs/Programa_Riego_Hunter.png)
 # Hidro AI - NextGenAI Agency
 Sistema inteligente de monitoreo hídrico con IA, integrado con Hunter X-Core y PostgreSQL, diseñado para la gestión eficiente y escalabilidad de recursos mediante Python.
 
