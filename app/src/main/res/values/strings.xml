@@ -1,7 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Hidro AI</string>
-    <string name="_0_0">0.0</string>
-    <string name="litros">LITROS</string>
-    <string name="estado_esperando_pulso">ESTADO: ESPERANDO PULSO...</string>
+    <string name="app_name">HidroAI App</string>
+    <string name="ia_che_vago">IA: Che vago, hay 35 grados... ¿vas a regar o qué mierda?</string>
+    <string name="estado_listo">ESTADO: MÓDULO ISRAELÍ ONLINE</string>
+    <string name="Carga_Manual_B1">CARGA MANUAL (B1)</string>
+    <string name="Auto_Gestion_IA">AUTO-GESTIÓN IA</string>
+
+    <string name="status_gsm">CONEXIÓN: CELULAR SATELITAL</string>
+    <string name="alerta_sabotaje">IA: ¡ALERTA! TOCARON EL TABLERO!</string>
+    <string name="ai_welcome">Bienvenido a HidroAI. Soy tu asistente de gestión hídrica y telemetría universal. ¿Cómo deseas que nos comuniquemos hoy?</string>
+    <string name="tone_professional">Modo Profesional (Amable)</string>
+    <string name="tone_savage">Modo Realista (Movete vago)</string>
 </resources>

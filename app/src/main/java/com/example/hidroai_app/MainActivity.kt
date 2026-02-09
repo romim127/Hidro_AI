@@ -1,39 +1,103 @@
 package com.example.hidroai_app
 
-import android.animation.ValueAnimator
+import android.Manifest
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
+import android.content.pm.PackageManager
+import android.net.wifi.WifiManager
+import android.os.Build
 import android.os.Bundle
-import android.view.animation.LinearInterpolator
-import android.widget.ProgressBar
+import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.activity.ComponentActivity // Cambiamos a esta para máxima compatibilidad
+import android.widget.Toast
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 
-class MainActivity : ComponentActivity() { // Heredamos de ComponentActivity
+class MainActivity : AppCompatActivity() {
+
+    // --- BLOQUE DE VARIABLES (Declaración) ---
+    private lateinit var tvIA: TextView
+    private lateinit var tvStatus: TextView
+    private lateinit var btnScan: Button
+    private lateinit var container: LinearLayout
+    private lateinit var wifiManager: WifiManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val progressBar = findViewById<ProgressBar>(R.id.pbWaterFlow)
-        val tvLiters = findViewById<TextView>(R.id.tvLitersCount)
-        val tvStatus = findViewById<TextView>(R.id.tvStatusHardware)
+        // --- VINCULACIÓN CON LA UI (El puente) ---
+        tvIA = findViewById(R.id.tvIAMessageText)
+        tvStatus = findViewById(R.id.tvStatusHardware)
+        btnScan = findViewById(R.id.btnAutoGestion)
+        container = findViewById(R.id.main_container_layout)
 
-        // Iniciamos la animación de la Bomba Zeta 4 (150L/min -> 12.5L en 5s)
-        startWaterFlow(progressBar, tvLiters, tvStatus)
+        wifiManager = applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+
+        // Bienvenida con el Clima
+        tvIA.text = "Hello! Soy HidroAI.\nClima: 24°C - Despejado.\nListo para escanear."
+
+        btnScan.setOnClickListener {
+            solicitarPermisosYEscanear()
+        }
     }
 
-    private fun startWaterFlow(pb: ProgressBar, tv: TextView, status: TextView) {
-        status.text = "ESTADO: BOMBA ZETA 4 ACTIVA"
+    private fun solicitarPermisosYEscanear() {
+        val permisos = arrayOf(
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION
+        )
 
-        val animator = ValueAnimator.ofFloat(0f, 12.5f)
-        animator.duration = 5000
-        animator.interpolator = LinearInterpolator()
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, permisos, 123)
+        } else {
+            escanearWifiReal()
+        }
+    }
 
-        animator.addUpdateListener { animation ->
-            val animatedValue = animation.animatedValue as Float
-            pb.progress = ((animatedValue / 12.5f) * 100).toInt()
-            tv.text = String.format("%.1f", animatedValue)
+    private fun escanearWifiReal() {
+        tvStatus.text = "ESCANEANDO ESPECTRO..."
+
+        val wifiReceiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context, intent: Intent) {
+                val resultados = wifiManager.scanResults
+                actualizarLista(resultados)
+            }
         }
 
-        animator.start()
+        // Corrección para Android 14 (Pixel 7)
+        val filter = IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            registerReceiver(wifiReceiver, filter, Context.RECEIVER_EXPORTED)
+        } else {
+            registerReceiver(wifiReceiver, filter)
+        }
+
+        val success = wifiManager.startScan()
+        if (!success) {
+            Toast.makeText(this, "Escaneo limitado por el sistema", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun actualizarLista(resultados: List<android.net.wifi.ScanResult>) {
+        container.removeAllViews()
+        tvStatus.text = "SE ENCONTRARON ${resultados.size} PLACAS"
+
+        for (red in resultados) {
+            val btnRed = Button(this)
+            // Mostramos el nombre de la red (SSID)
+            val nombreRed = if (red.SSID.isEmpty()) "[Red Oculta]" else red.SSID
+            btnRed.text = "SUSCRIBIRSE A: $nombreRed"
+
+            btnRed.setOnClickListener {
+                tvIA.text = "IA: Vinculado a $nombreRed.\nRecibiendo telemetría en tiempo real."
+                Toast.makeText(this, "Conectado a $nombreRed", Toast.LENGTH_SHORT).show()
+            }
+            container.addView(btnRed)
+        }
     }
 }

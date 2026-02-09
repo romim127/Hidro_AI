@@ -1,61 +1,184 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0F172A">
-
-    <ProgressBar
-        android:id="@+id/pbWaterFlow"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="280dp"
-        android:layout_height="280dp"
-        android:max="100"
-        android:progress="0"
-        android:progressDrawable="@drawable/circle_progress_blue"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    android:background="#0A0A0A">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="@+id/pbWaterFlow"
-        app:layout_constraintEnd_toEndOf="@+id/pbWaterFlow"
-        app:layout_constraintStart_toStartOf="@+id/pbWaterFlow"
-        app:layout_constraintTop_toTopOf="@+id/pbWaterFlow">
+        android:padding="20dp"
+        android:id="@+id/main_container_layout">
 
-        <TextView
-            android:id="@+id/tvLitersCount"
-            android:layout_width="wrap_content"
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/_0_0"
-            android:textColor="#FFFFFF"
-            android:textSize="48sp"
-            android:textStyle="bold" />
+            app:cardBackgroundColor="#151525"
+            app:cardCornerRadius="16dp"
+            android:layout_marginBottom="24dp">
 
-        <TextView
-            android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:id="@+id/tvI.Text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Iniciando HidroAI..."
+                    android:textColor="#00E5FF"
+                    android:textSize="18sp"
+                    android:padding="16dp"
+                    android:textStyle="bold"
+                    android:gravity="center" />
+
+                <TextView
+                    android:id="@+id/tvIAMessageText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="IA: Escaneando espectro... Preparada para protocolos OFDM/DSSS."
+                    android:textColor="#00E5FF"
+                    android:textSize="17sp"
+                    android:fontFamily="monospace" />
+
+                <Button
+                    android:id="@+id/btnSetTone"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="CONFIGURAR TONO"
+                    android:textColor="#BB86FC"
+                    app:strokeColor="#BB86FC" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <GridLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/litros"
-            android:textColor="#38BDF8"
-            android:textSize="16sp" />
+            android:columnCount="2"
+            android:alignmentMode="alignMargins">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="130dp"
+                android:layout_columnWeight="1"
+                android:layout_margin="5dp"
+                app:cardBackgroundColor="#1A1A1A"
+                app:cardCornerRadius="12dp">
+                <LinearLayout
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:text="CAUDAL REAL"
+                        android:textColor="#757575"
+                        android:textSize="12sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:id="@+id/tvLitersCount"
+                        android:text="0.0 L/min"
+                        android:textColor="#00E676"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <ProgressBar
+                        android:id="@+id/pbWaterFlow"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:progress="0"
+                        android:progressTint="#00E676" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="130dp"
+                android:layout_columnWeight="1"
+                android:layout_margin="5dp"
+                app:cardBackgroundColor="#1A1A1A"
+                app:cardCornerRadius="12dp">
+                <LinearLayout
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:text="NIVEL TANQUE"
+                        android:textColor="#757575"
+                        android:textSize="12sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <ProgressBar
+                        android:id="@+id/pbNivelAgua"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:progress="20"
+                        android:progressTint="#00E5FF" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </GridLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_marginTop="20dp">
+            <TextView
+                android:id="@+id/tvStatusHardware"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="LINK: BUSCANDO SEÑAL..."
+                android:textColor="#FFAB00"
+                android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView android:id="@+id/iconWifi" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text=" WIFI " android:textColor="#333333" android:background="@drawable/shape_protocol_tag" android:layout_margin="2dp"/>
+                <TextView android:id="@+id/iconOfdm" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text=" OFDM " android:textColor="#333333" android:background="@drawable/shape_protocol_tag" android:layout_margin="2dp"/>
+                <TextView android:id="@+id/iconTelemetria" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text=" TMTR " android:textColor="#333333" android:background="@drawable/shape_protocol_tag" android:layout_margin="2dp"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnManualCharge"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="20dp"
+            android:text="CARGA MANUAL (B1)"
+            android:backgroundTint="#2E2E2E"
+            app:cornerRadius="12dp" />
+
+        <Button
+            android:id="@+id/btnAutoGestion"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginTop="10dp"
+            android:text="INICIAR AUTO-GESTIÓN IA"
+            android:backgroundTint="#00E5FF"
+            android:textColor="#000000"
+            app:cornerRadius="12dp" />
+
+        <ImageButton
+            android:id="@+id/btnBluetoothConnect"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:src="@android:drawable/stat_sys_data_bluetooth"
+            android:backgroundTint="#1A1A1A"
+            android:contentDescription="Bluetooth Link" />
+
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/tvStatusHardware"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/estado_esperando_pulso"
-        android:textColor="#34D399"
-        android:layout_marginBottom="40dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_gravity="center_horizontal"
-        app:layout_constraintRight_toRightOf="parent" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
